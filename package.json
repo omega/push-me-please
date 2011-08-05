@@ -5,5 +5,7 @@
   , "dependencies": {
       "express": "2.4.0"
     , "jade": ">= 0.0.1"
+    , "sax" : ">= 0.2.0"
+    , "confu" : ">= 0.0.1"
   }
 }

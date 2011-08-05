@@ -3,6 +3,8 @@
  * Module dependencies.
  */
 
+var config = require('confu')(__dirname, 'config.json');
+
 var express = require('express')
   , https = require('https')
   , http = require('http')
@@ -14,8 +16,8 @@ var express = require('express')
 
 var app = module.exports = express.createServer();
 
-var postbin = URL.parse('http://www.postbin.org/t3fkem/feed');
-var test_url = URL.parse('https://github.com/startsiden/sandbox/admin/test_postreceive');
+var postbin = URL.parse(config.postbin);
+var test_url = URL.parse(config.testurl);
 
 // Configuration
 
