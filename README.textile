@@ -1,0 +1,10 @@
+h1. push-me-please
+
+Simple enough. We trigger a test_postrecieve on a repo, that we have configured to
+have a postbin url as it's post commit hook. Then we poll the feed, find the IP, and
+"store" it. Simple web page to list IPs seen so far.
+
+We needed this because the firewall of our company network blocks requests to our
+build-servers, but we need the post commit hooks, so we need to open those. They
+sometimes change, so now we can track them :)
+
