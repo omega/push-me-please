@@ -40,14 +40,9 @@ app.configure('production', function(){
 
 // Routes
 
-var DB = {};
+var DB = [];
 
 app.get('/', function(req, res){
-    var hms = {
-        db: DB,
-        test: [1, 2, 5, 3],
-        some: "else"
-    };
     res.render('index', {
         title: 'push-me-please',
         db: DB,
@@ -119,7 +114,12 @@ function AtomParser() {
             var title = self.e;
             var m = title.match(/(\d+\.\d+\.\d+\.\d+)/);
             if (m) {
-                DB[m[1]] = true;
+                if (!DB.some(function(v) {
+                    return m[1] == v;
+                })) {
+                    DB.push(m[1]);
+                }
+                DB.sort();
             }
             self.e = null;
         }
