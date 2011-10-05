@@ -41,11 +41,13 @@ app.configure('production', function(){
 // Routes
 
 var DB = [];
+var TS = '';
 
 app.get('/', function(req, res){
     res.render('index', {
         title: 'push-me-please',
         db: DB,
+        ts: TS,
         bah: 'bah'
     });
 });
@@ -71,7 +73,7 @@ function POLL() {
             "Authorization": auth
         }
     }, function(res) {
-        console.log("POST placed", res.statusCode);
+        console.log("POST placed", res.statusCode, TS, DB);
     }).on('error', function(err) {
         console.error("POST error: ", err);
     });
@@ -98,8 +100,15 @@ function AtomParser() {
     this.sax = SAX.parser(false, {lowercasetags: true, trim: true});
     self.e = null;
     self.began = false;
+    self.ts = false;
     self.sax.ontext = function(text) {
         //console.log(text);
+        if (self.ts) {
+            TS = text;
+            self.ts = false;
+            return;
+        }
+
         if (self.e == null) return;
         self.e += text;
     };
@@ -107,6 +116,7 @@ function AtomParser() {
         //console.log("+node.name: ", node.name);
         if (node.name == "entry") return self.began = true;
         if (node.name == "title") return self.e = "";
+        if (!self.began && node.name == "updated") return self.ts = true;
     };
     self.sax.onclosetag = function(name) {
         //console.log("-node.name: ", name);
